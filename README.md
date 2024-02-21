@@ -14,7 +14,7 @@ Now the MQTT-Chatclient should run on http://localhost:4321 and you should be se
 ## Logging in
 
 Right now, this MQTT-Client only contains three accounts, which are specified in the path
-````/public/verySecurePasswords.json``` (School project security). This JSON-file contains
+```/public/verySecurePasswords.json``` (School project security). This JSON-file contains
 an Object with the usernames as the key and the password as the value. For example, the account "user1"
 uses the password "password" in order to login. After an account has logged in, the following screen will appear:
 
