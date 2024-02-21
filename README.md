@@ -65,3 +65,8 @@ you will notified bu a red circle next to the chatroom icon with a number contai
 Here is an example of an unread message\
 ![Unread message](./public/readme_images/message_unread.png)\
 If an unread message is deleted, the counter will decrease respectively
+
+## Possible future improvements:
+
+* _Proper user management_
+* Sending messages via TLS
