@@ -97,6 +97,7 @@
     <Input
         class="fixed bottom-1 w-[99%] h-[5%]"
         bind:value
+        placeholder="Write something..."
         on:keypress={(e) => {
             if (e.key == "Enter") sendMessage();
         }}

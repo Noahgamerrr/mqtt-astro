@@ -1,54 +1,67 @@
-# Astro Starter Kit: Basics
+# MQTT Client
 
-```sh
-npm create astro@latest -- --template basics
-```
+## Getting started:
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/withastro/astro/tree/latest/examples/basics)
-[![Open with CodeSandbox](https://assets.codesandbox.io/github/button-edit-lime.svg)](https://codesandbox.io/p/sandbox/github/withastro/astro/tree/latest/examples/basics)
-[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/withastro/astro?devcontainer_path=.devcontainer/basics/devcontainer.json)
+* Clone the repository with ```git clone https://github.com/Noahgamerrr/mqtt-astro [YOUR-FOLDER-NAME]```
+* Navigate to the newly created folder
+* Run ```npm i```
+* Run ```npm run dev``` (Build not intended but possible, as this is just a school project)
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+Now the MQTT-Chatclient should run on http://localhost:4321 and you should be seeing the following screen:
 
-![just-the-basics](https://github.com/withastro/astro/assets/2244813/a0a5533c-a856-4198-8470-2d67b1d7c554)
+![Login-Screen](./public/readme_images/login.png)
 
-## 🚀 Project Structure
+## Logging in
 
-Inside of your Astro project, you'll see the following folders and files:
+Right now, this MQTT-Client only contains three accounts, which are specified in the path
+````/public/verySecurePasswords.json``` (School project security). This JSON-file contains
+an Object with the usernames as the key and the password as the value. For example, the account "user1"
+uses the password "password" in order to login. After an account has logged in, the following screen will appear:
 
-```text
-/
-├── public/
-│   └── favicon.svg
-├── src/
-│   ├── components/
-│   │   └── Card.astro
-│   ├── layouts/
-│   │   └── Layout.astro
-│   └── pages/
-│       └── index.astro
-└── package.json
-```
+![Chat-Screen](./public/readme_images/chat-screen.png)
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+### Note:
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+* The retain-flag for messages has not been set to true, because it felt useless if only the last message sent is being retained
+* No session is created, so reloading will require you to log in again. This behaviour is intended however, as it is easier that way to use the client with multiple accounts on multiple different tabs simultaneously
 
-Any static assets, like images, can be placed in the `public/` directory.
+## Features:
 
-## 🧞 Commands
+### MQTT-Broker:
 
-All commands are run from the root of the project, from a terminal:
+This chat client uses the following MQTT-Broker: "ws://test.mosquitto.org:8081" and sends every
+message on subtopic of: "at/htl-vil/arsicn/chat/"
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
+### Messages:
 
-## 👀 Want to learn more?
+You can write messages to different chatrooms. These messages are mostly built the same way (with exception of the delete messages):\
+\
+[Unique-UUID]\
+[User]\
+[Timestamp]\
+[Message]\
+\
+Here's what a message looks like in the browser:
+![Example message](./public/readme_images/message.png)
+When you hover over your own message, a delete-button appears, which, when clicked, will ask you
+if you are sure you want to delete that message. A delete-message is built different than a normal message:\
+\
+DELETE MESSAGE [Message UUID]
+![Example message](./public/readme_images/message.png)
+This message will be deleted for all users.
 
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+### Chatrooms
+
+There are two types of chatrooms:
+
+* Group chatrooms
+* Private chatrooms
+
+A group chatroom always ends with a subtopic that contains the group's name. A private chatroom, however, always ends with the name of the recipient. If, for example, user1 wants to sent a message to admin, then he will do so by using the topic: "at/htl-vil/arsicn/chat/admin". When admin receives that message, the client will attribute the message to the right user by looking at the message itself.\
+\
+If you receive a message from a user or in a group, and you are currently chating in another chatroom,
+you will notified bu a red circle next to the chatroom icon with a number containing the amount of unread messages.\
+\
+Here is an example of an unread message\
+![Unread message](./public/readme_images/message_unread.png)\
+If an unread message is deleted, the counter will decrease respectively
